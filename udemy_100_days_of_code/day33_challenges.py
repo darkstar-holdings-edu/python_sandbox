@@ -2,9 +2,9 @@ import datetime as dt
 import smtplib
 import time
 from datetime import timezone
+from signal import SIGINT, signal
 from tkinter import Button, Canvas, PhotoImage, Tk
 from typing import Literal, TypedDict
-from signal import signal, SIGINT
 
 import requests
 from config42 import ConfigManager
