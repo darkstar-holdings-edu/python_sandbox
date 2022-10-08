@@ -7,18 +7,13 @@ from tkinter import Button, Canvas, PhotoImage, Tk
 from typing import Literal, TypedDict
 
 import requests
-from config42 import ConfigManager
-from config42.handlers import FileHandler
 from menutools import Menu
+
+from config import CONFIG
 
 ASSETS_DIRECTORY = "udemy_100_days_of_code/day33_assets"
 LATITUDE = 34.052235
 LONGITUDE = -118.243683
-
-
-CONFIG = ConfigManager(
-    handler=FileHandler, path="udemy_100_days_of_code/config.json"
-).as_dict()
 
 
 class ISS_POSITION_RESPONSE(TypedDict):
@@ -176,8 +171,8 @@ def send_mail(subject: str, body: str) -> None:
         connection.starttls()
         connection.login(user=CONFIG["smtp_username"], password=CONFIG["smtp_password"])
         connection.sendmail(
-            from_addr=CONFIG["email"]["from"],
-            to_addrs=CONFIG["email"]["to"],
+            from_addr=CONFIG["email"]["from_address"],
+            to_addrs=CONFIG["email"]["to_addresses"],
             msg=f"Subject:{subject}\n\n{body}",
         )
 

@@ -2,6 +2,8 @@ import datetime as dt
 import random
 import smtplib
 
+from config import CONFIG
+
 
 def get_random_quote() -> str:
     with open(file="udemy_100_days_of_code/day32_data.txt") as file:
@@ -11,12 +13,12 @@ def get_random_quote() -> str:
 
 
 def send_mail(quote: str) -> None:
-    with smtplib.SMTP("smtp.gmail.com", 587) as connection:
+    with smtplib.SMTP(CONFIG["smtp_host"]) as connection:
         connection.starttls()
-        connection.login(user="hashref@gmail.com", password="")
+        connection.login(user=CONFIG["smtp_username"], password=CONFIG["smtp_password"])
         connection.sendmail(
-            to_addrs="hashref@gmail.com",
-            from_addr="hashref@gmail.com",
+            from_addr=CONFIG["email"]["from_address"],
+            to_addrs=CONFIG["email"]["to_addresses"],
             msg=f"Subject:Be Inspired\n\n{quote}",
         )
 
