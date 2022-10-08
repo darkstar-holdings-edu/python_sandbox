@@ -130,3 +130,6 @@ dmypy.json
 
 # pipenv .lock file
 Pipfile.lock
+
+# No Configs
+config.json
