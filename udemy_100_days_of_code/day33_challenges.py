@@ -6,6 +6,8 @@ import requests
 from menutools import Menu
 
 ASSETS_DIRECTORY = "udemy_100_days_of_code/day33_assets"
+LATITUDE = 34.052235
+LONGITUDE = -118.243683
 
 
 class ISS_POSITION_RESPONSE(TypedDict):
@@ -16,6 +18,25 @@ class ISS_POSITION_RESPONSE(TypedDict):
 
 class KANYE_API_RESPONSE(TypedDict):
     quote: str
+
+
+SUNRISE_SUNSET_RESULTS_KEYS = Literal[
+    "sunrise",
+    "sunset",
+    "solar_noon",
+    "day_length",
+    "civil_twilight_begin",
+    "civil_twilight_end",
+    "nautical_twilight_begin",
+    "nautical_twilight_end",
+    "astronomical_twilight_begin",
+    "astronomical_twilight_end",
+]
+
+
+class SUNRISE_SUNSET_API_RESPONSE(TypedDict):
+    status: Literal["OK"]
+    results: dict[SUNRISE_SUNSET_RESULTS_KEYS, str]
 
 
 def iss_position() -> tuple[dt.datetime, float, float]:
@@ -65,9 +86,26 @@ def kanye_says() -> None:
     window.mainloop()
 
 
+def sunrise_sunset() -> tuple[str, str]:
+    payload = {
+        "lat": LATITUDE,
+        "lng": LONGITUDE,
+        "formatted": 0,
+    }
+    response = requests.get("https://api.sunrise-sunset.org/json", params=payload)
+    response.raise_for_status()
+
+    data: SUNRISE_SUNSET_API_RESPONSE = response.json()
+
+    return (data["results"]["sunrise"], data["results"]["sunset"])
+
+
 def main() -> None:
     def print_iss_position() -> None:
         print(iss_position())
+
+    def print_sunrise_sunset() -> None:
+        print(sunrise_sunset())
 
     menu = Menu("100 Days of Code Challenges")
     menu.add(
@@ -76,6 +114,7 @@ def main() -> None:
             [
                 ("ISS Position", print_iss_position),
                 ("Kanye Says", kanye_says),
+                ("Sunrise/Sunset", print_sunrise_sunset),
                 ("Exit", menu.exit),
             ],
         )
