@@ -5,5 +5,9 @@
   "email": {
     "from": "FROM MAILBOX",
     "to": "TO MAILBOX"
+  },
+  "pixela_api": {
+    "username": "USERNAME",
+    "token": "TOKEN STRING"
   }
 }

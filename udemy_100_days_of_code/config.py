@@ -4,6 +4,11 @@ from config42 import ConfigManager
 from config42.handlers import FileHandler
 
 
+class ConfigPixelApi(TypedDict):
+    username: str
+    token: str
+
+
 class ConfigEmailOption(TypedDict):
     from_address: str
     to_addresses: str | Sequence[str]
@@ -14,6 +19,7 @@ class ConfigData(TypedDict):
     smtp_username: str
     smtp_password: str
     email: ConfigEmailOption
+    pixela_api: ConfigPixelApi
 
 
 CONFIG: ConfigData = ConfigManager(
